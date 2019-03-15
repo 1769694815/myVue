@@ -14,7 +14,7 @@
 <script>
 // @ is an alias to /src
 // import HelloWorld from '@/components/HelloWorld.vue'
-import { mapMutations } from 'vuex'
+import { mapMutations, mapGetters } from 'vuex'
 export default {
 	name: 'home',
 	data () {
@@ -23,8 +23,13 @@ export default {
 			// products: this.$store.getters.saleProducts // getters 为store的计算属性
 		}
 	},
+	computed: {
+		...mapGetters([  // 该辅助函数仅仅是将store中的getter映射到局部计算属性
+			'saleProducts'
+		])
+	},
 	methods: {
-		...mapMutations([
+		...mapMutations([ // 该辅助函数将组件中的methods映射为store.commit调用（需要在根节点注入store）
 			'minusPrice'
 		]),
 		minusPrices () {
@@ -33,6 +38,7 @@ export default {
 	},	
 	created () {
 		console.log(this.$store.getters.saleProducts)
+		console.log(this.saleProducts)
 	}
 
 }
